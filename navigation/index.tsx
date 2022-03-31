@@ -14,6 +14,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import ProfileMessagingScreen from '../screens/ProfileMessagingScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
@@ -62,8 +63,18 @@ function BottomTabNavigator() {
       initialRouteName="TabOne"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
-      <BottomTab.Screen
+          tabBarShowLabel: false
+      }}
+    >
+        <BottomTab.Screen
+            name="ProfileScreen"
+            component={ProfileScreen}
+            options={({ navigation }: RootTabScreenProps<'ProfileScreen'>) => ({
+                tabBarIcon: () => <Image style={styles.icon} source={require("../assets/logo.png")} />,
+            })
+            }
+        />
+        <BottomTab.Screen
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
@@ -105,6 +116,13 @@ function BottomTabNavigator() {
   );
 }
 
+/*const styles = StyleSheet.create({
+    icon:{
+        width: 30,
+        height: 30
+    }
+})*/
+
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
@@ -119,5 +137,9 @@ const styles = StyleSheet.create({
     messageIcon: {
         width:30,
         height:30
+    },
+    icon:{
+        width: 30,
+        height: 30
     }
 })
