@@ -8,18 +8,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
-import {ColorSchemeName, Pressable, Image, StyleSheet} from 'react-native';
+import {ColorSchemeName, Pressable, Image, StyleSheet, Text} from 'react-native';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ProfileMessagingScreen from '../screens/ProfileMessagingScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import TabOneScreen from "../screens/TabOneScreen";
+import Header from './Header';
 import EditProfile from "../screens/EditProfile";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
@@ -42,12 +39,10 @@ function RootNavigator() {
   // @ts-ignore
     return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="Root" component={BottomTabNavigator} options={{
+          header:(()=><Header/>),
+      }} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
-      </Stack.Group>
     </Stack.Navigator>
   );
 }
@@ -63,7 +58,7 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="ProfileScreen"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
           tabBarShowLabel: false
@@ -72,47 +67,19 @@ function BottomTabNavigator() {
         <BottomTab.Screen
             name="ProfileScreen"
             component={ProfileScreen}
-            options={({ navigation }: RootTabScreenProps<'ProfileScreen'>) => ({
-                tabBarIcon: () => <Image style={styles.icon} source={require("../assets/logo.png")} />,
-            })
-            }
+            options={{
+                title:'',
+                tabBarIcon: () => <Image style={styles.icon} source={require("../assets/images/logo.png")} />,
+                headerShown:false
+            }}
         />
-        <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
         <BottomTab.Screen
             name="Messages"
             component={ProfileMessagingScreen}
             options={{
                 title: '',
                 tabBarIcon: () => <Image style={styles.messageIcon} source={require('../assets/images/img.png')} />,
+                headerShown:false
             }}
         />
     </BottomTab.Navigator>

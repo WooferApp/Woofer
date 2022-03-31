@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
-import {Text, View} from "../components/Themed";
-import EditScreenInfo from "../components/EditScreenInfo";
+import { View} from "../components/Themed";
 import {Image, ScrollView, StyleSheet} from "react-native";
-import SearchBar from "../components/SearchBar";
-import {LinearGradient} from "expo-linear-gradient";
+import SearchBar from "../messages/SearchBar";
 import GradientText from "../components/GradientText";
-import Message from "../components/Message";
+import Matches from '../messages/Matches';
+import MessageList from '../messages/MessageList';
 
 export default function ProfileMessagingScreen() {
     const [searchPhrase, setSearchPhrase] = useState("");
@@ -18,27 +17,8 @@ export default function ProfileMessagingScreen() {
                        setSearchPhrase={setSearchPhrase}
                        clicked={clicked}
                        setClicked={setClicked} />
-            <GradientText text="Nouveaux matchs" style={styles.title}/>
-            <View style={styles.matchContainer}>
-                <ScrollView horizontal={true} style={styles.scrollView}>
-                    <Image style={styles.matchImage} source={require("../assets/images/chien1.jpeg")} />
-                    <Image style={styles.matchImage} source={require("../assets/images/chien2.jpeg")} />
-                    <Image style={styles.matchImage} source={require("../assets/images/chien3.jpeg")} />
-                    <Image style={styles.matchImage} source={require("../assets/images/chien4.jpeg")} />
-                    <Image style={styles.matchImage} source={require("../assets/images/chien5.jpeg")} />
-                </ScrollView>
-            </View>
-
-            <GradientText text="Messages" style={styles.title}/>
-            <ScrollView>
-                <Message />
-                <Message />
-                <Message />
-                <Message />
-                <Message />
-                <Message />
-                <Message />
-            </ScrollView>
+            <Matches />
+            <MessageList />
         </View>
     );
 }

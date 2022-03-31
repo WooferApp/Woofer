@@ -11,7 +11,6 @@ export function StyledButton(props:TextProps) {
         <TouchableOpacity onPress={props.onPress}>
             <View>
                 <LinearGradient
-                    // Button Linear Gradient
                     colors={['#ff8b57', '#fd5068', '#fd2f7a']}
                     style={styles.button}>
                     <Text style={styles.buttonText}>{props.text}</Text>
