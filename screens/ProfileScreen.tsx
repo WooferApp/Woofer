@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import RoundedButton from "../components/RoundedButton";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function ProfileScreen(){
-    const handleOnPress = () => {
-        console.log("je press")
-    }
+export default function ProfileScreen({navigation}: any){
+
     return (
         <View style={styles.container}>
             <View style={styles.firstContainer}>
@@ -19,7 +19,7 @@ export default function ProfileScreen(){
                     <RoundedButton isBig={false} text={"SÉCURITÉ"} path={require('../assets/images/security.png')} />
                 </View>
                 <View style={styles.updateProfilContainer}>
-                    <RoundedButton handleOnPress={handleOnPress} isBig={true} text={"MODIFIER LE PROFIL"} path={require('../assets/images/edit.png')} />
+                    <RoundedButton handleOnPress={() => navigation.navigate('EditProfile')} isBig={true} text={"MODIFIER LE PROFIL"} path={require('../assets/images/edit.png')} />
                 </View>
 
             </View>
