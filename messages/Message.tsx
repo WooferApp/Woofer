@@ -1,17 +1,22 @@
 import {Image, StyleSheet} from "react-native";
-import {Text, View} from "./Themed";
+import {Text, View} from "../components/Themed";
 import React from "react";
 
-export default function Message(){
+interface Props {
+    sender:string,
+    date:string,
+    message:string
+}
+export default function Message(props:Props){
     return(
         <View style={styles.messageContainer}>
-            <Image style={styles.messageImage} source={require("../assets/images/chien1.jpeg")} />
+            <Image style={styles.messageImage} source={require("../assets/images/dogs/chien1.jpeg")} />
             <View style={styles.message}>
                 <View style={styles.messageHeader}>
-                    <Text style={styles.messageSender}>Kiki</Text>
-                    <Text style={styles.messageDate}>1 day ago</Text>
+                    <Text style={styles.messageSender}>{props.sender}</Text>
+                    <Text style={styles.messageDate}>{props.date}</Text>
                 </View>
-                <Text>Hello ! You are very pretty !</Text>
+                <Text>{props.message}</Text>
             </View>
         </View>
     );

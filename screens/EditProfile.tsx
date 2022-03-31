@@ -17,13 +17,13 @@ export default function EditProfile() {
                 <GradientText text="Modifier mes photos" style={styles.title}/>
             </View>
             <View style={styles.containerImage}>
-                <Image style={styles.matchImage} source={require("../assets/images/chien1.jpeg")} />
-                <Image style={styles.matchImage} source={require("../assets/images/chien2.jpeg")} />
-                <Image style={styles.matchImage} source={require("../assets/images/chien3.jpeg")} />
+                <Image style={styles.matchImage} source={require("../assets/images/dogs/chien1.jpeg")} />
+                <Image style={styles.matchImage} source={require("../assets/images/dogs/chien2.jpeg")} />
+                <Image style={styles.matchImage} source={require("../assets/images/dogs/chien3.jpeg")} />
             </View>
             <View style={styles.containerImage}>
-                <Image style={styles.matchImage} source={require("../assets/images/chien4.jpeg")} />
-                <Image style={styles.matchImage} source={require("../assets/images/chien5.jpeg")} />
+                <Image style={styles.matchImage} source={require("../assets/images/dogs/chien4.jpeg")} />
+                <Image style={styles.matchImage} source={require("../assets/images/dogs/chien5.jpeg")} />
 
             </View>
             <View>
