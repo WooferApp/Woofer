@@ -6,12 +6,12 @@ import StyledButton from "./StyledButton";
 import LoginReducer from "../reducers/LoginReducer";
 
 type FormProps = {
-    isRegistred: boolean
+    isRegistered: boolean
 }
 
-export default function Form ({isRegistred}: FormProps){
-    const LOGIN = [{name: 'Name', type: 'setName', textContentType: 'name'}, {name:'Email', type:'setEmail', textContentType: 'emailAddress'}, {name: 'Password', type: 'setPassword', textContentType: 'password'}];
-    const REGISTRATION = [{name:'Email', type:'setEmail', textContentType: 'emailAddress'}, {name: 'Password', type: 'setPassword', textContentType: 'password'}];
+export default function Form ({isRegistered}: FormProps){
+    const REGISTRATION = [{name: 'Name', type: 'setName', textContentType: 'name'}, {name:'Email', type:'setEmail', textContentType: 'emailAddress'}, {name: 'Password', type: 'setPassword', textContentType: 'password'}];
+    const LOGIN = [{name:'Email', type:'setEmail', textContentType: 'emailAddress'}, {name: 'Password', type: 'setPassword', textContentType: 'password'}];
 
     const [state, dispatch] = useReducer(LoginReducer, {
         name: '',
@@ -24,9 +24,10 @@ export default function Form ({isRegistred}: FormProps){
     }
 
     return(
-        <View >
+        <View style={styles.container}>
             <FlatList
-                data={isRegistred ? LOGIN : REGISTRATION}
+                style={styles.flatlist}
+                data={isRegistered ? LOGIN : REGISTRATION}
                 keyExtractor={(item, index) => item.name + index}
                 renderItem={({item}) => { 
                     return <InputText 
@@ -42,5 +43,12 @@ export default function Form ({isRegistred}: FormProps){
 }
 
 const styles = StyleSheet.create({
-
+    container: {
+        display: "flex",
+        alignItems: "center"
+    }, 
+    flatlist: {
+        width: 340,
+        marginBottom: 40
+    }
 })

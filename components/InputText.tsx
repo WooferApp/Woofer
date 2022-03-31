@@ -27,6 +27,9 @@ export default function InputText ({term, onTermChange, onTermSubmit, textConten
 
 const styles = StyleSheet.create({
     inputStyle: {
-        margin: 0
+        margin: 10,
+        padding: 10,
+        backgroundColor: '#E8E8E8',
+        borderRadius: 15
     }
 });

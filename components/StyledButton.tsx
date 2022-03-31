@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {StyleSheet, TouchableOpacity, View, Text, GestureResponderEvent} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 
@@ -26,11 +25,14 @@ export function StyledButton(props:TextProps) {
 const styles = StyleSheet.create({
     button:{
         padding: 15,
-        alignItems: 'center',
         borderRadius: 25,
-        width:340
-    }, buttonText:{
-        color:'white', fontWeight:'bold', fontSize:16, textAlign:'center'
+        width: 340,
+    }, 
+    buttonText: {
+        color: 'white', 
+        fontWeight: 'bold', 
+        fontSize: 16, 
+        textAlign: 'center'
     }
 });
 export default StyledButton;
