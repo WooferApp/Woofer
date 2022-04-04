@@ -22,9 +22,13 @@ export const userSlice = createSlice({
     setLoginError: (state) => {
       state.error = "Erreur dans la saisie de vos identifiants";
     },
+    userLogout: (state) => {
+      state.error = null;
+      state.value = null;
+    },
   },
 });
 
-export const { userLogin, setLoginError } = userSlice.actions;
+export const { userLogin, setLoginError, userLogout } = userSlice.actions;
 
 export default userSlice.reducer;
