@@ -55,5 +55,5 @@ const styles = StyleSheet.create({
   },
   forgotPassword: {
     textAlign: 'center'
-  } 
+  }
 });
