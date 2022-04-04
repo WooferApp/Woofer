@@ -1,12 +1,18 @@
 import {FlatList, StyleSheet} from "react-native";
-import {View, Text} from "./Themed";
+import {View, Text} from "../components/Themed";
 import React, {useReducer, useState} from "react";
-import InputText from "./InputText";
-import StyledButton from "./StyledButton";
+import InputText from "../components/InputText";
+import StyledButton from "../components/StyledButton";
 import LoginReducer from "../reducers/LoginReducer";
+import { userLogin, setLoginError } from './store/user.store';
 import * as yup from 'yup';
 
-let schema = yup.object().shape({
+import axios from 'axios';
+import {useDispatch, useSelector} from "react-redux";
+import { RootState } from "../store/Store";
+import {useNavigation} from "@react-navigation/native";
+
+const schema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().min(6, "Your email must contain at least six characters").email("Invalid email").required("Email is required"),
     password: yup.string().trim().min(8, "Password must have at least eight characters").required("Password is required")
@@ -19,31 +25,42 @@ type FormProps = {
 export default function Form ({isRegistered}: FormProps){
     const REGISTRATION = [{name: 'Name', type: 'setName', textContentType: 'name'}, {name:'Email', type:'setEmail', textContentType: 'emailAddress'}, {name: 'Password', type: 'setPassword', textContentType: 'password'}];
     const LOGIN = [{name:'Email', type:'setEmail', textContentType: 'emailAddress'}, {name: 'Password', type: 'setPassword', textContentType: 'password'}];
-
-    const [state, dispatch] = useReducer(LoginReducer, {
+    const { value :user, error } = useSelector((state:RootState)=>state.user)
+    const [userToSign, setUserToSign] = useReducer(LoginReducer, {
         name: '',
         email: '',
         password: ''
     });
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
 
     const [errorMessage, setErrorMessage] = useState([]);
 
-    const submit = () => {  
-        setErrorMessage([]);
 
-        schema.validate(state).catch(function (err) {
+    const submit = async () => {
+        const {email, password, name } = userToSign;
+
+        setErrorMessage([]);
+        schema.validate(userToSign).catch(function (err) {
             setErrorMessage(err.errors);
         });
-        // Case sign up:  
-        if(!isRegistered) {
-            schema.isValid(state)
+
+        if(isRegistered){
+            try {
+                const response = await axios.post('http://localhost:4000/auth/login', {username: email, password});
+                dispatch(userLogin({token: response.data.access_token, email}));
+                // navigation.navigate('ProfileScreen');
+            } catch(e){
+                dispatch(setLoginError());
+            }
+        } else {
+            //post to route subscribe
+            schema.isValid(userToSign)
                 .then(function (isValid) {
                     console.log(isValid);
-                });
-        // Case login:
-        } else {
-            
+            });
         }
+
     }
 
     return(
@@ -55,7 +72,7 @@ export default function Form ({isRegistered}: FormProps){
                 renderItem={({item}) => { 
                     return <InputText 
                         term={item.name} 
-                        onTermChange={(newTerm: React.SetStateAction<string>) => dispatch({type: item.type, payload: newTerm})}
+                        onTermChange={(newTerm: React.SetStateAction<string>) => setUserToSign({type: item.type, payload: newTerm})}
                         onTermSubmit={() => {}} 
                         textContentType={item.textContentType}
                 />}}
@@ -66,7 +83,9 @@ export default function Form ({isRegistered}: FormProps){
                 renderItem={({item}) => { 
                     return <Text style={styles.errorMessage}>{item}</Text>}}
             />}
+            {error && <Text style={styles.errorMessage}>{error}</Text>}
             <StyledButton text="Submit" onPress={submit}/>
+            
         </View>
     );
 }

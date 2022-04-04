@@ -1,5 +1,5 @@
 const LoginReducer = (
-    state: object,
+    state: { name:string; email:string;  password:string},
     action: {type: string; payload: any},
   ) => {  
     switch (action.type) {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { View } from '../components/Themed';
-import Form from '../components/Form';
+import Form from '../login/Form';
 import GradientText from '../components/GradientText';
 
 export default function LoginScreen() {
