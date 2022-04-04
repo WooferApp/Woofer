@@ -5,6 +5,7 @@ import InputText from "../common/InputText";
 import StyledButton from "../common/StyledButton";
 import LoginReducer from "./reducers/LoginReducer";
 import { userLogin, setLoginError } from "./store/user.store";
+<<<<<<< HEAD
 import * as yup from 'yup';
 
 import axios from "axios";
@@ -15,6 +16,12 @@ const schema = yup.object().shape({
   email: yup.string().min(6, "Your email must contain at least six characters").email("Invalid email").required("Email is required"),
   password: yup.string().trim().min(8, "Password must have at least eight characters").required("Password is required")
 });
+=======
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/Store";
+import { API_URL } from "@env";
+>>>>>>> e871ba6 (changes on header and .env added)
 type FormProps = {
   isRegistered: boolean
 };
@@ -36,7 +43,10 @@ export default function Form({ isRegistered }: FormProps) {
     password: "",
   });
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const [errorMessage, setErrorMessage] = useState([]);
+=======
+>>>>>>> e871ba6 (changes on header and .env added)
 
   const submit = async () => {
     const { email, password, name } = userToSign;
@@ -47,12 +57,11 @@ export default function Form({ isRegistered }: FormProps) {
 
     if (isRegistered) {
       try {
-        const response = await axios.post("http://localhost:4000/auth/login", {
+        const response = await axios.post(API_URL, {
           username: email,
           password,
         });
         dispatch(userLogin({ token: response.data.access_token, email }));
-        // navigation.navigate('ProfileScreen');
       } catch (e) {
         dispatch(setLoginError());
       }
