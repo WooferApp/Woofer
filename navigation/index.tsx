@@ -16,8 +16,11 @@ import ProfileScreen from '../screens/ProfileScreen';
 import ProfileMessagingScreen from '../screens/ProfileMessagingScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import Header from './Header';
 import EditProfile from "../screens/EditProfile";
+import Header from './Header';
+import LoginScreen from '../screens/LoginScreen';
+import {RootState} from "../store/Store";
+import {useSelector} from "react-redux";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -36,14 +39,25 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+    const {value} = useSelector((state:RootState)=>state.user)
   // @ts-ignore
     return (
+        value ?
+
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{
-          header:(()=><Header/>),
-      }} />
-        <Stack.Screen name="EditProfile" component={EditProfile} />
+            <Stack.Screen name="Root" component={BottomTabNavigator} options={{
+            header:(()=><Header/>)
+            }}/>
+            <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
+
+            :
+
+            <Stack.Navigator>
+                <Stack.Screen name="Root" component={LoginScreen} options={{
+                    header:(()=><Header/>)
+                }}/>
+            </Stack.Navigator>
   );
 }
 
@@ -55,7 +69,7 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-
+  const {value} = useSelector((state:RootState)=>state.user)
   return (
     <BottomTab.Navigator
       initialRouteName="ProfileScreen"

@@ -4,12 +4,14 @@ import GradientText from "../components/GradientText";
 import StyledButton from "../components/StyledButton";
 import {Camera} from "expo-camera";
 import {StyledButtonCamera} from "../components/StyledButtonCamera";
+import {useSelector} from "react-redux";
+import { RootState } from '../store/Store';
 
 export default function EditProfile() {
     const [hasPermission, setHasPermission] = useState(null);
     const [cameraIsOpen, setCameraIsOpen] = useState(false)
-    console.log(hasPermission)
-    console.log("cameraIsOpen", cameraIsOpen)
+
+    const userStore = useSelector((state:RootState)=>state.user);
     return (
         <View style={styles.container}>
             {cameraIsOpen && <Camera  style={styles.cameraContainer}></Camera>}
