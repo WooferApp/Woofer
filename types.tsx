@@ -18,6 +18,7 @@ export type RootStackParamList = {
   LoginScreen:undefined;
   ProfileScreen: undefined;
   Messages:undefined;
+  Matches:undefined;
   EditProfile: undefined;
 };
 
@@ -30,6 +31,7 @@ export type RootTabParamList = {
   LoginScreen:undefined;
   ProfileScreen: undefined;
   Messages:undefined;
+  Matches:undefined;
   EditProfile: undefined;
 };
 
