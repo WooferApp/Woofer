@@ -1,9 +1,16 @@
 import {FlatList, StyleSheet} from "react-native";
-import {View} from "./Themed";
-import React, {useReducer} from "react";
+import {View, Text} from "./Themed";
+import React, {useReducer, useState} from "react";
 import InputText from "./InputText";
 import StyledButton from "./StyledButton";
 import LoginReducer from "../reducers/LoginReducer";
+import * as yup from 'yup';
+
+let schema = yup.object().shape({
+    name: yup.string().required("Name is required"),
+    email: yup.string().min(6, "Your email must contain at least six characters").email("Invalid email").required("Email is required"),
+    password: yup.string().trim().min(8, "Password must have at least eight characters").required("Password is required")
+});
 
 type FormProps = {
     isRegistered: boolean
@@ -19,8 +26,24 @@ export default function Form ({isRegistered}: FormProps){
         password: ''
     });
 
-    const submit = () => {
-        console.log(state);
+    const [errorMessage, setErrorMessage] = useState([]);
+
+    const submit = () => {  
+        setErrorMessage([]);
+
+        schema.validate(state).catch(function (err) {
+            setErrorMessage(err.errors);
+        });
+        // Case sign up:  
+        if(!isRegistered) {
+            schema.isValid(state)
+                .then(function (isValid) {
+                    console.log(isValid);
+                });
+        // Case login:
+        } else {
+            
+        }
     }
 
     return(
@@ -37,12 +60,22 @@ export default function Form ({isRegistered}: FormProps){
                         textContentType={item.textContentType}
                 />}}
             />
+            {errorMessage.length < 0 ? null : <FlatList
+                data={errorMessage}
+                keyExtractor={(index) => index}
+                renderItem={({item}) => { 
+                    return <Text style={styles.errorMessage}>{item}</Text>}}
+            />}
             <StyledButton text="Submit" onPress={submit}/>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    errorMessage: {
+        color: 'red',
+        marginBottom: 20
+    },
     container: {
         display: "flex",
         alignItems: "center"

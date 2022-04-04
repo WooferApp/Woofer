@@ -1,5 +1,4 @@
-import {TextInput, StyleSheet} from "react-native";
-import {View} from "./Themed";
+import {StyleSheet, TextInput} from "react-native";
 
 type InputTextProps = {
     term: string,
@@ -10,8 +9,7 @@ type InputTextProps = {
 
 export default function InputText ({term, onTermChange, onTermSubmit, textContentType}: InputTextProps) {
     return (
-        <View>
-          <TextInput
+        <TextInput
             autoCapitalize="none"
             autoCorrect={false}
             secureTextEntry={textContentType === 'password' ? true : false}
@@ -20,8 +18,7 @@ export default function InputText ({term, onTermChange, onTermSubmit, textConten
             onChangeText={onTermChange}
             onEndEditing={onTermSubmit}
             textContentType={textContentType}
-          />
-        </View>
+        />
     );
 }
 
