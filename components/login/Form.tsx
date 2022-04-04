@@ -5,11 +5,10 @@ import InputText from "../common/InputText";
 import StyledButton from "../common/StyledButton";
 import LoginReducer from "./reducers/LoginReducer";
 import { userLogin, setLoginError } from "./store/user.store";
-
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/Store";
-import { useNavigation } from "@react-navigation/native";
+import { API_URL } from "@env";
 type FormProps = {
   isRegistered: boolean;
 };
@@ -31,18 +30,16 @@ export default function Form({ isRegistered }: FormProps) {
     password: "",
   });
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const submit = async () => {
     const { email, password, name } = userToSign;
     if (isRegistered) {
       try {
-        const response = await axios.post("http://localhost:4000/auth/login", {
+        const response = await axios.post(API_URL, {
           username: email,
           password,
         });
         dispatch(userLogin({ token: response.data.access_token, email }));
-        // navigation.navigate('ProfileScreen');
       } catch (e) {
         dispatch(setLoginError());
       }
