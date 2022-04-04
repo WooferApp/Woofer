@@ -21,6 +21,7 @@ import Header from './Header';
 import LoginScreen from '../screens/LoginScreen';
 import {RootState} from "../store/Store";
 import {useSelector} from "react-redux";
+import ProfileMatchingPage from '../screens/ProfileMatchingPage';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -88,11 +89,20 @@ function BottomTabNavigator() {
             }}
         />
         <BottomTab.Screen
+            name="Matches"
+            component={ProfileMatchingPage}
+            options={{
+                title: '',
+                tabBarIcon: () => <Image style={styles.messageIcon} source={require('../assets/images/coeur.png')} />,
+                headerShown:false
+            }}
+        />
+        <BottomTab.Screen
             name="Messages"
             component={ProfileMessagingScreen}
             options={{
                 title: '',
-                tabBarIcon: () => <Image style={styles.messageIcon} source={require('../assets/images/img.png')} />,
+                tabBarIcon: () => <Image style={styles.messageIcon} source={require('../assets/images/message.png')} />,
                 headerShown:false
             }}
         />
