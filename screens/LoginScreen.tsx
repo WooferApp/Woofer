@@ -22,6 +22,9 @@ export default function LoginScreen() {
         </TouchableOpacity>
       </View>
       <Form isRegistered={isRegistered} />
+      {isRegistered ? <View style={styles.containerForgot}>
+          <GradientText text="Forgot your password?" style={styles.forgotPassword}/>
+        </View> : null}
     </View>
   );
 }
@@ -30,17 +33,27 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 30,
   },
-  headContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+  headContainer : {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15
   },
   title: {
-    fontSize: 22,
-    fontWeight: "bold",
+      fontSize: 25,
+      fontWeight: 'bold',
+      paddingHorizontal: 80
   },
   gradientText: {
-    fontSize: 14,
+      fontSize: 14,
   },
+  containerForgot : {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 10
+  },
+  forgotPassword: {
+    textAlign: 'center'
+  }
 });
