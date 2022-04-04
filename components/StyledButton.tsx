@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     button:{
         padding: 15,
         borderRadius: 25,
+<<<<<<< HEAD
         width: 340,
     }, 
     buttonText: {
@@ -32,6 +33,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold', 
         fontSize: 16, 
         textAlign: 'center'
+=======
+        width:340
+    },
+    buttonText:{
+        color:'white', fontWeight:'bold', fontSize:16, textAlign:'center'
+>>>>>>> ed88eb0 (matching page is okay)
     }
 });
 export default StyledButton;
