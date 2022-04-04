@@ -28,7 +28,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 25,
         width:340
-    }, buttonText:{
+    },
+    buttonText:{
         color:'white', fontWeight:'bold', fontSize:16, textAlign:'center'
     }
 });
