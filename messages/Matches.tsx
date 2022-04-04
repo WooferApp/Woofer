@@ -16,7 +16,7 @@ export default function Matches() {
             <GradientText text="Nouveaux matchs" style={styles.title}/>
             <ScrollView horizontal={true} style={styles.scrollView}>
                 {images.map(({source}, index)=>(
-                    <Image style={styles.matchImage} source={source} />
+                    <Image style={styles.matchImage} source={source} key={index}/>
                 ))}
             </ScrollView>
         </View>
