@@ -5,20 +5,29 @@ import InputText from "../common/InputText";
 import StyledButton from "../common/StyledButton";
 import LoginReducer from "./reducers/LoginReducer";
 import { userLogin, setLoginError } from "./store/user.store";
-import * as yup from 'yup';
+import * as yup from "yup";
 
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/Store";
 import { API_URL } from "@env";
+import * as SecureStore from "expo-secure-store";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
-  email: yup.string().min(6, "Your email must contain at least six characters").email("Invalid email").required("Email is required"),
-  password: yup.string().trim().min(8, "Password must have at least eight characters").required("Password is required")
+  email: yup
+    .string()
+    .min(6, "Your email must contain at least six characters")
+    .email("Invalid email")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .trim()
+    .min(8, "Password must have at least eight characters")
+    .required("Password is required"),
 });
 type FormProps = {
-  isRegistered: boolean
+  isRegistered: boolean;
 };
 
 export default function Form({ isRegistered }: FormProps) {
@@ -40,12 +49,19 @@ export default function Form({ isRegistered }: FormProps) {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState([]);
 
+  async function setToken(token: { token: string; deadline: number }) {
+    return await SecureStore.setItemAsync("token", JSON.stringify(token));
+  }
+
+  async function getToken() {
+    return await SecureStore.getItemAsync("token");
+  }
   const submit = async () => {
     const { email, password, name } = userToSign;
     setErrorMessage([]);
-        schema.validate(userToSign).catch(function (err) {
-            setErrorMessage(err.errors);
-        });
+    schema.validate(userToSign).catch(function (err) {
+      setErrorMessage(err.errors);
+    });
 
     if (isRegistered) {
       try {
@@ -53,21 +69,32 @@ export default function Form({ isRegistered }: FormProps) {
           username: email,
           password,
         });
-        dispatch(userLogin({ token: response.data.access_token, email }));
+        const { data } = response;
+        dispatch(userLogin({ token: data.access_token, email }));
+        // navigation.navigate('ProfileScreen');
+        await setToken({
+          token: data.access_token,
+          deadline: Date.now() + 6000000,
+        });
+        const token = await getToken();
+        if (typeof token === "string") {
+          const tokenJSON = await JSON.parse(token);
+          console.log(token);
+          console.log("is valid", Date.now() < tokenJSON.deadline);
+        }
       } catch (e) {
         dispatch(setLoginError());
       }
     } else {
       //post to route subscribe
-      schema.isValid(userToSign)
-        .then(function (isValid) {
-          console.log(isValid);
+      schema.isValid(userToSign).then(function (isValid) {
+        console.log(isValid);
       });
     }
   };
 
   return (
-    <View  style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         style={styles.flatlist}
         data={isRegistered ? LOGIN : REGISTRATION}
@@ -86,13 +113,16 @@ export default function Form({ isRegistered }: FormProps) {
           );
         }}
       />
-      {errorMessage.length < 0 ? null : <FlatList
-                data={errorMessage}
-                keyExtractor={(index) => index}
-                renderItem={({item}) => { 
-                    return <Text style={styles.errorMessage}>{item}</Text>}}
-            />}
-            {error && <Text style={styles.errorMessage}>{error}</Text>}
+      {errorMessage.length < 0 ? null : (
+        <FlatList
+          data={errorMessage}
+          keyExtractor={(index) => index}
+          renderItem={({ item }) => {
+            return <Text style={styles.errorMessage}>{item}</Text>;
+          }}
+        />
+      )}
+      {error && <Text style={styles.errorMessage}>{error}</Text>}
       <StyledButton text="Submit" onPress={submit} />
     </View>
   );
@@ -100,15 +130,15 @@ export default function Form({ isRegistered }: FormProps) {
 
 const styles = StyleSheet.create({
   errorMessage: {
-      color: 'red',
-      marginBottom: 20
+    color: "red",
+    marginBottom: 20,
   },
   container: {
-      display: "flex",
-      alignItems: "center"
-  }, 
+    display: "flex",
+    alignItems: "center",
+  },
   flatlist: {
-      width: 340,
-      marginBottom: 40
-  }
-})
+    width: 340,
+    marginBottom: 40,
+  },
+});
