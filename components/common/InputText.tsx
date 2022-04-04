@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
   inputStyle: {
     margin: 10,
     padding: 10,
-    backgroundColor: '#E8E8E8',
-    borderRadius: 15
-    margin: 0,
+    backgroundColor: "#E8E8E8",
+    borderRadius: 15,
   },
 });
