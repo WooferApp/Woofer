@@ -3,31 +3,47 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import {ColorSchemeName, Pressable, Image, StyleSheet, Text} from 'react-native';
+import { FontAwesome } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as React from "react";
+import {
+  ColorSchemeName,
+  Pressable,
+  Image,
+  StyleSheet,
+  Text,
+} from "react-native";
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import ProfileScreen from '../screens/ProfileScreen';
-import ProfileMessagingScreen from '../screens/ProfileMessagingScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
+import ProfileScreen from "../screens/ProfileScreen";
+import ProfileMessagingScreen from "../screens/ProfileMessagingScreen";
+import {
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
+} from "../types";
+import LinkingConfiguration from "./LinkingConfiguration";
 import EditProfile from "../screens/EditProfile";
-import Header from './Header';
-import LoginScreen from '../screens/LoginScreen';
-import {RootState} from "../store/Store";
-import {useSelector} from "react-redux";
-import ProfileMatchingPage from '../screens/ProfileMatchingPage';
+import Header from "./Header";
+import LoginScreen from "../screens/LoginScreen";
+import { RootState } from "../store/Store";
+import { useSelector } from "react-redux";
+import ProfileMatchingPage from "../screens/ProfileMatchingPage";
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation({
+  colorScheme,
+}: {
+  colorScheme: ColorSchemeName;
+}) {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={DefaultTheme}>
+    <NavigationContainer linking={LinkingConfiguration} theme={DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -40,25 +56,29 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-    const {value} = useSelector((state:RootState)=>state.user)
+  const { value } = useSelector((state: RootState) => state.user);
   // @ts-ignore
-    return (
-        value ?
-
+  return value ? (
     <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} options={{
-            header:(()=><Header/>)
-            }}/>
-            <Stack.Screen name="EditProfile" component={EditProfile} />
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{
+          header: () => <Header />,
+        }}
+      />
+      <Stack.Screen name="EditProfile" component={EditProfile} />
     </Stack.Navigator>
-
-            :
-
-            <Stack.Navigator>
-                <Stack.Screen name="Root" component={LoginScreen} options={{
-                    header:(()=><Header/>)
-                }}/>
-            </Stack.Navigator>
+  ) : (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Root"
+        component={LoginScreen}
+        options={{
+          header: () => <Header />,
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
@@ -70,64 +90,78 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
   const colorScheme = useColorScheme();
-  const {value} = useSelector((state:RootState)=>state.user)
+  const { value } = useSelector((state: RootState) => state.user);
   return (
     <BottomTab.Navigator
       initialRouteName="ProfileScreen"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
-          tabBarShowLabel: false
+        tabBarShowLabel: false,
       }}
     >
-        <BottomTab.Screen
-            name="ProfileScreen"
-            component={ProfileScreen}
-            options={{
-                title:'',
-                tabBarIcon: () => <Image style={styles.icon} source={require("../assets/images/logo.png")} />,
-                headerShown:false
-            }}
-        />
-        <BottomTab.Screen
-            name="Matches"
-            component={ProfileMatchingPage}
-            options={{
-                title: '',
-                tabBarIcon: () => <Image style={styles.messageIcon} source={require('../assets/images/coeur.png')} />,
-                headerShown:false
-            }}
-        />
-        <BottomTab.Screen
-            name="Messages"
-            component={ProfileMessagingScreen}
-            options={{
-                title: '',
-                tabBarIcon: () => <Image style={styles.messageIcon} source={require('../assets/images/message.png')} />,
-                headerShown:false
-            }}
-        />
+      <BottomTab.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <Image
+              style={styles.icon}
+              source={require("../assets/images/logo.png")}
+            />
+          ),
+          headerShown: false,
+        }}
+      />
+      <BottomTab.Screen
+        name="Matches"
+        component={ProfileMatchingPage}
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <Image
+              style={styles.messageIcon}
+              source={require("../assets/images/coeur.png")}
+            />
+          ),
+          headerShown: false,
+        }}
+      />
+      <BottomTab.Screen
+        name="Messages"
+        component={ProfileMessagingScreen}
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <Image
+              style={styles.messageIcon}
+              source={require("../assets/images/message.png")}
+            />
+          ),
+          headerShown: false,
+        }}
+      />
     </BottomTab.Navigator>
   );
 }
-
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 const styles = StyleSheet.create({
-    messageIcon: {
-        width:30,
-        height:30
-    },
-    icon:{
-        width: 30,
-        height: 30
-    }
-})
+  messageIcon: {
+    width: 30,
+    height: 30,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+  },
+});
